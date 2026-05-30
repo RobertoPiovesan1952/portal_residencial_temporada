@@ -1,0 +1,23 @@
+body { font-family: Arial, sans-serif; }
+.hero {
+    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+}
+input, select, textarea {
+    width: 100%;
+    display: block;
+    padding: .55rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: .375rem;
+}
+input[type="checkbox"] {
+    width: auto;
+    display: inline-block;
+}
+.card {
+    border: 0;
+    box-shadow: 0 4px 18px rgba(15,23,42,.08);
+    border-radius: 16px;
+}

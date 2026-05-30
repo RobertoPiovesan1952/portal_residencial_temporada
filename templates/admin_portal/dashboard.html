@@ -1,0 +1,29 @@
+{% extends "base/admin.html" %}
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+<div class="row g-3">
+  <div class="col-md-2"><div class="card p-3"><small>Moradores</small><h3>{{ moradores_ativos }}</h3></div></div>
+  <div class="col-md-2"><div class="card p-3"><small>Vagas livres</small><h3>{{ vagas_livres }}</h3></div></div>
+  <div class="col-md-2"><div class="card p-3"><small>Total vagas</small><h3>{{ total_vagas }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><small>Receita prevista</small><h3>R$ {{ receita_prevista }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><small>Pagamentos abertos</small><h3>R$ {{ pagamentos_abertos }}</h3></div></div>
+</div>
+
+<h2 class="mt-5">Mapa da casa</h2>
+<div class="row g-3 mt-2">
+  {% for quarto in quartos %}
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h5>{{ quarto.nome }}</h5>
+      {% for leito in quarto.leitos.all %}
+        <div class="border rounded p-2 mb-2">
+          <b>{{ leito.codigo }}</b> — {{ leito.get_status_display }}
+        </div>
+      {% empty %}
+        <p>Nenhuma vaga cadastrada.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
