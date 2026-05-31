@@ -1,14 +1,9 @@
-databases:
-  - name: portal-residencial-db
-    databaseName: portal_residencial
-    plan: free
-
 services:
   - type: web
     name: portal-residencial-temporada
     runtime: python
     plan: free
-    buildCommand: "./build.sh"
+    buildCommand: "chmod +x build.sh && ./build.sh"
     startCommand: "gunicorn portal_residencial.wsgi:application"
     envVars:
       - key: SECRET_KEY
@@ -18,8 +13,6 @@ services:
       - key: ALLOWED_HOSTS
         value: ".onrender.com,www.residencialtemporada.com.br,residencialtemporada.com.br,portal.residencialtemporada.com.br"
       - key: DATABASE_URL
-        fromDatabase:
-          name: portal-residencial-db
-          property: connectionString
+        sync: false
       - key: PYTHON_VERSION
         value: "3.12.4"
