@@ -1,0 +1,30 @@
+{% extends "base/admin.html" %}
+{% block content %}
+<h1>{{ morador.nome }}</h1>
+<div class="row g-4">
+  <div class="col-lg-8">
+    <form method="post" class="card p-4">
+      {% csrf_token %}
+      <div class="row g-3">
+        {% for field in form %}
+        <div class="col-md-6">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }}
+        </div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary mt-4">Salvar</button>
+    </form>
+  </div>
+  <div class="col-lg-4">
+    <div class="card p-4">
+      <h4>Contatos de emergência</h4>
+      {% for contato in morador.contatos_emergencia.all %}
+        <p><b>{{ contato.nome }}</b><br>{{ contato.parentesco }}<br>{{ contato.telefone }}</p>
+      {% empty %}
+        <p>Nenhum contato cadastrado.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
