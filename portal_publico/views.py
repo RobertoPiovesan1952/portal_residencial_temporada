@@ -8,7 +8,8 @@ def home(request):
     return render(request, "publico/home.html", {"vagas_livres": vagas_livres})
 
 def estrutura(request):
-    return render(request, "publico/estrutura.html")
+    fotos = range(1, 8)  # 1.jpeg ... 7.jpeg
+    return render(request, "publico/estrutura.html", {"fotos": fotos}) 
 
 def regras(request):
     return render(request, "publico/regras.html")
