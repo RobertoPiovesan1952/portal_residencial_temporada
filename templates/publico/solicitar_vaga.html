@@ -3,18 +3,98 @@
 <div class="container py-5">
   <h1>Solicitar vaga</h1>
   <p>Preencha sua ficha. A administração analisará os dados e entrará em contato.</p>
-  <form method="post" enctype="multipart/form-data" class="card p-4 mt-4">
+
+  <form method="post" enctype="multipart/form-data" class="card p-4 mt-4" id="form-solicitar">
     {% csrf_token %}
     <div class="row g-3">
       {% for field in form %}
-        <div class="col-md-6">
-          <label class="form-label">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
-        </div>
+        {% if field.field.widget.input_type == "file" %}
+          <div class="col-md-6">
+            <label class="form-label">{{ field.label }}</label>
+            <div class="dropzone" data-input="{{ field.id_for_label }}">
+              <div class="dropzone-inner">
+                <svg class="dropzone-icon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <p class="dropzone-text">Arraste o arquivo aqui<br><span>ou clique para selecionar</span></p>
+                <p class="dropzone-file"></p>
+              </div>
+              <div style="display:none">{{ field }}</div>
+            </div>
+            {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+            {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+          </div>
+        {% else %}
+          <div class="col-md-6">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
     <button class="btn btn-primary mt-4">Enviar solicitação</button>
   </form>
 </div>
+
+<style>
+  .dropzone {
+    border: 2px dashed #c9ccd4;
+    border-radius: 10px;
+    background: #fafbfc;
+    padding: 22px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .dropzone:hover { border-color: #f5b700; background: #fffdf5; }
+  .dropzone.dragover { border-color: #f5b700; background: #fff8e1; }
+  .dropzone.has-file { border-color: #2e9e5b; background: #f3fbf6; }
+  .dropzone-inner { pointer-events: none; }
+  .dropzone-icon { color: #9aa0ac; margin-bottom: 6px; }
+  .dropzone.has-file .dropzone-icon { color: #2e9e5b; }
+  .dropzone-text { margin: 0; color: #5a606b; font-size: .92rem; line-height: 1.35; }
+  .dropzone-text span { color: #8a90a0; font-size: .82rem; }
+  .dropzone-file { margin: 8px 0 0; font-size: .85rem; font-weight: 600; color: #2e9e5b; word-break: break-all; }
+</style>
+
+<script>
+  document.querySelectorAll('.dropzone').forEach(function (zone) {
+    var input = zone.querySelector('input[type="file"]');
+    var fileLabel = zone.querySelector('.dropzone-file');
+    if (!input) return;
+
+    function showFile() {
+      if (input.files && input.files.length > 0) {
+        fileLabel.textContent = input.files[0].name;
+        zone.classList.add('has-file');
+      } else {
+        fileLabel.textContent = '';
+        zone.classList.remove('has-file');
+      }
+    }
+
+    zone.addEventListener('click', function () { input.click(); });
+    input.addEventListener('change', showFile);
+
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      zone.addEventListener(ev, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      zone.addEventListener(ev, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.remove('dragover');
+      });
+    });
+    zone.addEventListener('drop', function (e) {
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        input.files = e.dataTransfer.files;
+        showFile();
+      }
+    });
+  });
+</script>
 {% endblock %}
