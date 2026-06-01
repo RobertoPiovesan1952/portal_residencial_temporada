@@ -1,8 +1,42 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import HttpResponse
 from .models import Candidato, Morador, ContatoEmergencia
 from .forms import MoradorForm
+from .contrato import gerar_contrato_docx
+
+
+@login_required
+def gerar_contrato(request, pk):
+    morador = get_object_or_404(Morador, pk=pk)
+    if request.method == "POST":
+        dados = {
+            "qualificacao_locador": request.POST.get("qualificacao_locador", "").strip(),
+            "endereco_locatario": request.POST.get("endereco_locatario", "").strip(),
+            "cep_locatario": request.POST.get("cep_locatario", "").strip(),
+            "tel_fixo": request.POST.get("tel_fixo", "").strip(),
+            "endereco_imovel": request.POST.get("endereco_imovel", "").strip(),
+            "numero_quarto": request.POST.get("numero_quarto", "").strip(),
+            "num_habitantes": request.POST.get("num_habitantes", "").strip(),
+            "num_adultos": request.POST.get("num_adultos", "").strip(),
+            "num_criancas": request.POST.get("num_criancas", "").strip(),
+            "valor": request.POST.get("valor", "").strip(),
+            "forma_pagamento": request.POST.get("forma_pagamento", "").strip(),
+            "data_inicio": request.POST.get("data_inicio", "").strip(),
+            "data_fim": request.POST.get("data_fim", "").strip(),
+            "data_contrato": request.POST.get("data_contrato", "").strip(),
+            "estado_imovel": request.POST.get("estado_imovel", "").strip(),
+        }
+        buffer = gerar_contrato_docx(morador, dados)
+        filename = f"contrato_{morador.nome.replace(' ', '_').lower()}.docx"
+        response = HttpResponse(
+            buffer.read(),
+            content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
+    return render(request, "moradores/gerar_contrato.html", {"morador": morador})
 
 @login_required
 def candidatos_lista(request):

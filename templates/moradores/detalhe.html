@@ -1,6 +1,9 @@
 {% extends "base/admin.html" %}
 {% block content %}
-<h1>{{ morador.nome }}</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">{{ morador.nome }}</h1>
+  <a href="/portal/moradores/{{ morador.pk }}/contrato/" class="btn btn-success">📄 Gerar contrato</a>
+</div>
 <div class="row g-4">
   <div class="col-lg-8">
     <form method="post" class="card p-4">

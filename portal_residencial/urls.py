@@ -25,6 +25,7 @@ urlpatterns = [
     path("portal/candidatos/<int:pk>/aprovar/", moradores.aprovar_candidato, name="aprovar_candidato"),
     path("portal/moradores/", moradores.moradores_lista, name="moradores_lista"),
     path("portal/moradores/<int:pk>/", moradores.morador_detalhe, name="morador_detalhe"),
+    path("portal/moradores/<int:pk>/contrato/", moradores.gerar_contrato, name="gerar_contrato"),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,82 @@
+{% extends "base/admin.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Gerar contrato — {{ morador.nome }}</h1>
+  <a href="/portal/moradores/{{ morador.pk }}/" class="btn btn-outline-secondary">Voltar</a>
+</div>
+<p class="text-muted">Os dados pessoais do morador já serão preenchidos automaticamente. Complete abaixo os dados específicos da locação e clique em "Gerar contrato (.docx)".</p>
+
+<form method="post" class="card p-4">
+  {% csrf_token %}
+  <div class="row g-3">
+    <div class="col-12">
+      <label class="form-label">Qualificação completa do locador</label>
+      <input type="text" name="qualificacao_locador" class="form-control" placeholder="Nome, nacionalidade, estado civil, profissão, CPF, RG, endereço...">
+    </div>
+
+    <div class="col-md-8">
+      <label class="form-label">Endereço do imóvel (objeto da locação)</label>
+      <input type="text" name="endereco_imovel" class="form-control" placeholder="Rua, número, bairro, cidade">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Número do quarto</label>
+      <input type="text" name="numero_quarto" class="form-control" value="{% if morador.quarto %}{{ morador.quarto.nome }}{% endif %}">
+    </div>
+
+    <div class="col-md-8">
+      <label class="form-label">Endereço do locatário</label>
+      <input type="text" name="endereco_locatario" class="form-control" placeholder="Endereço atual do morador">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">CEP do locatário</label>
+      <input type="text" name="cep_locatario" class="form-control">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Telefone fixo</label>
+      <input type="text" name="tel_fixo" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Nº de habitantes</label>
+      <input type="text" name="num_habitantes" class="form-control" value="1">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Adultos</label>
+      <input type="text" name="num_adultos" class="form-control" value="1">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Crianças</label>
+      <input type="text" name="num_criancas" class="form-control" value="0">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Valor do aluguel (R$)</label>
+      <input type="text" name="valor" class="form-control" value="{{ morador.valor_contratado|stringformat:'.2f' }}">
+    </div>
+    <div class="col-md-8">
+      <label class="form-label">Forma de pagamento</label>
+      <input type="text" name="forma_pagamento" class="form-control" placeholder="Ex: até o dia 5 de cada mês, via PIX">
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Data de início</label>
+      <input type="text" name="data_inicio" class="form-control" placeholder="dd/mm/aaaa">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Data de término</label>
+      <input type="text" name="data_fim" class="form-control" placeholder="dd/mm/aaaa">
+    </div>
+    <div class="col-md-4">
+      <label class="form-label">Data do contrato</label>
+      <input type="text" name="data_contrato" class="form-control" placeholder="Ex: 05 de junho de 2026">
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Estado do imóvel (deixe em branco para usar o texto padrão)</label>
+      <textarea name="estado_imovel" class="form-control" rows="3" placeholder="Descreva a real situação do imóvel, ou deixe vazio para o texto padrão."></textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-primary mt-4">Gerar contrato (.docx)</button>
+</form>
+{% endblock %}
