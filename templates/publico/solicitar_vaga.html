@@ -21,6 +21,17 @@
             </div>
             {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
             {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+            {% if field.name == "atestado_antecedentes_estadual" %}
+              <div class="atestado-help">
+                <p class="atestado-text">&#9888;&#65039; Obrigatório. Emita seu Atestado de Antecedentes Criminais Estadual (SSP/SP) gratuitamente no site oficial e anexe aqui.</p>
+                <a href="https://www2.ssp.sp.gov.br/aacweb/carrega-formulario" target="_blank" rel="noopener" class="atestado-link">Emitir Atestado Estadual (SSP/SP)</a>
+              </div>
+            {% elif field.name == "atestado_antecedentes_federal" %}
+              <div class="atestado-help">
+                <p class="atestado-text">&#9888;&#65039; Obrigatório. Emita seu Atestado de Antecedentes Criminais Federal (Polícia Federal) gratuitamente no site oficial e anexe aqui.</p>
+                <a href="https://servicos.pf.gov.br/epol-sinic-publico/" target="_blank" rel="noopener" class="atestado-link">Emitir Atestado Federal (Polícia Federal)</a>
+              </div>
+            {% endif %}
           </div>
         {% else %}
           <div class="col-md-6">
@@ -54,6 +65,10 @@
   .dropzone-text { margin: 0; color: #5a606b; font-size: .92rem; line-height: 1.35; }
   .dropzone-text span { color: #8a90a0; font-size: .82rem; }
   .dropzone-file { margin: 8px 0 0; font-size: .85rem; font-weight: 600; color: #2e9e5b; word-break: break-all; }
+  .atestado-help { margin-top: 8px; padding: 10px 12px; border-left: 3px solid #f5b700; background: #fffdf5; border-radius: 6px; }
+  .atestado-text { margin: 0 0 6px; font-size: .85rem; color: #5a606b; line-height: 1.4; }
+  .atestado-link { display: inline-block; font-size: .85rem; font-weight: 600; color: #b07a00; text-decoration: none; }
+  .atestado-link:hover { text-decoration: underline; }
 </style>
 
 <script>
