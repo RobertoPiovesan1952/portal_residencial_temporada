@@ -31,6 +31,18 @@ class Candidato(models.Model):
     documento_rg_cnh = models.FileField(upload_to="documentos/candidatos/", blank=True, null=True)
     comprovante_residencia = models.FileField(upload_to="documentos/candidatos/", blank=True, null=True)
     foto_pessoal = models.FileField(upload_to="documentos/candidatos/", blank=True, null=True)
+    atestado_antecedentes_estadual = models.FileField(
+        upload_to="documentos/candidatos/",
+        blank=True,
+        null=True,
+        verbose_name="Atestado de Antecedentes Criminais (Estadual - SSP/SP)",
+    )
+    atestado_antecedentes_federal = models.FileField(
+        upload_to="documentos/candidatos/",
+        blank=True,
+        null=True,
+        verbose_name="Atestado de Antecedentes Criminais (Federal - Polícia Federal)",
+    )
 
     fuma = models.BooleanField(default=False)
     aceita_regras = models.BooleanField(default=False)
