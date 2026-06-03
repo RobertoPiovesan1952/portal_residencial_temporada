@@ -9,12 +9,15 @@ class CandidatoForm(forms.ModelForm):
             "profissao", "empresa", "cidade_origem",
             "emergencia_nome", "emergencia_parentesco", "emergencia_telefone", "emergencia_whatsapp",
             "documento_rg_cnh", "comprovante_residencia", "foto_pessoal",
+            "atestado_antecedentes_estadual", "atestado_antecedentes_federal",
             "fuma", "aceita_regras", "observacoes",
         ]
         widgets = {
             "data_nascimento": forms.DateInput(attrs={"type": "date"}),
             "observacoes": forms.Textarea(attrs={"rows": 3}),
             "aceita_regras": forms.CheckboxInput(),
+            "atestado_antecedentes_estadual": forms.ClearableFileInput(attrs={"accept": ".pdf,image/*"}),
+            "atestado_antecedentes_federal": forms.ClearableFileInput(attrs={"accept": ".pdf,image/*"}),
         }
 
 class MoradorForm(forms.ModelForm):
